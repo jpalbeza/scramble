@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 
 from icicle.items import FrontPageItem, ArticlePageItem
 
+
 class GuardianSpider(Spider):
     name = "guardian-icicles"
     allowed_domains = ["www.theguardian.com"]
@@ -12,17 +13,30 @@ class GuardianSpider(Spider):
     def start_requests(self):
         yield Request('https://www.theguardian.com/au', self.parse)
 
-    def purify_to_text(self, marked_up_string):
+    @staticmethod
+    def _purify_to_text(marked_up_string):
         return BeautifulSoup(marked_up_string, "lxml").get_text()
+
+    @staticmethod
+    def _safe_get_first(maybe_empty_array):
+        return (maybe_empty_array or [''])[0]
 
     def parse_article(self, response, article_url):
         item = ArticlePageItem()
 
         item['article_url'] = article_url
-        # item['author_url'] = Selector(response).xpath('//a[@rel="author"]/@href').extract()[0]
-        # item['author'] = Selector(response).xpath('//a[@rel="author"]/span[@itemprop="name"]/text').extract()[0]
-        item['article_headline'] = self.purify_to_text(Selector(response).xpath('//h1[@itemprop="headline"]').extract()[0])
-        item['article_text'] = ''.join([self.purify_to_text(markup) for markup in Selector(response).xpath('//div[@itemprop="articleBody"]/p').extract()])
+        item['author_url'] = self._safe_get_first(Selector(response).xpath('//a[@rel="author"]/@href').extract())
+        item['author'] = \
+            self._purify_to_text(
+                    self._safe_get_first(
+                            Selector(response).xpath('//a[@rel="author"]').extract()))
+        item['article_headline'] = \
+            self._purify_to_text(
+                    self._safe_get_first(
+                            Selector(response).xpath('//h1[@itemprop="headline"]').extract()))
+
+        article_text_blocks = Selector(response).xpath('//div[@itemprop="articleBody"]/p').extract()
+        item['article_text'] = ''.join([self._purify_to_text(markup) for markup in article_text_blocks])
 
         yield item
 
@@ -44,4 +58,3 @@ class GuardianSpider(Spider):
             item['listed_headline'] = article.xpath('text()').extract()[0]
             yield item
             yield Request(article_url, self.callback_with_article_url(article_url))
-

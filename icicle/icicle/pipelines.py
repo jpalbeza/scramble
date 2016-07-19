@@ -32,7 +32,9 @@ class MongoDBPipeline(object):
                 valid = False
                 raise DropItem("Missing {0}!".format(data))
         if valid:
-            self.collection.insert(dict(item))
+            self.collection.update_one({'article_url': item['article_url']},
+                                       {'$set': dict(item)},
+                                       upsert=True)
             log.msg("Article added to MongoDB database!",
                     level=log.DEBUG, spider=spider)
         return item
