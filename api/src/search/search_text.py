@@ -48,7 +48,7 @@ def handle_request(event, context):
     :return: List of articles matching the search keyword.
     """
 
-    # keyword is base 64 encoded so we can receive it through the query string as a minimum
+    # keyword is base 64 encoded so we can receive it correctly through the query string
     keyword = b64decode(event['keyword'])
     return _find_doc(source_collection, keyword)
 
