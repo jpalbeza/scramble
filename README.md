@@ -2,11 +2,11 @@
 Sample implementation of web scraping.
 
 ## Use Case
-This system is designed to:
+#### This system is designed to:
 1. periodically retrieve data from the news website, theguardian.com
 2. make that data available via a REST api
 
-For each article found, this system stores:
+#### For each article found, this system stores:
 1. url
 2. headline
 3. author
