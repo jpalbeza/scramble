@@ -1,5 +1,7 @@
+"""
+Tool to setup mongo db. For now, this only sets up the text index.
+"""
 from pymongo import MongoClient, TEXT
-
 from scrapy.conf import settings
 
 

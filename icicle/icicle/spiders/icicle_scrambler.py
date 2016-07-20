@@ -41,17 +41,17 @@ class GuardianSpider(Spider):
         """
         return (maybe_empty_array or [''])[0]
 
-    def parse_article(self, response, article_url):
+    def parse_article(self, response):
         """
         Parses an article page and yields the result as an ArticleItem.
 
-        :param response: The page to process. This is the page returned by calling a URL.
-        :param article_url:
-        :return:
+        @url https://www.theguardian.com/environment/2016/jul/20/june-2016-14th-consecutive-month-of-record-breaking-heat-says-us-agencies
+        @returns items 1 1
+        @scrapes article_url author_url author article_headline article_text
         """
         article_page_item = ArticlePageItem()
 
-        article_page_item['article_url'] = article_url
+        article_page_item['article_url'] = response.url
 
         article_page_item['author_url'] = \
             self._safe_get_first(Selector(response).xpath('//a[@rel="author"]/@href').extract())
@@ -71,23 +71,16 @@ class GuardianSpider(Spider):
 
         yield article_page_item
 
-    def callback_with_article_url(self, article_url):
-        """
-        Creates a callback that  hols the article_url.
-
-        :param article_url: the value to store in this callback
-        :return: a function that is closed on the value of article_url
-        """
-        return lambda response: self.parse_article(response, article_url)
-
     def parse(self, response):
         """
         Parses the front page. Looks for the list of articles and yields:
         1. a FrontPageItem for further processing down the pipeline
         2. a Request for further crawling of the found url
 
-        :param response:
-        :return:
+        @url https://www.theguardian.com/au
+        @returns items 1 70
+        @returns requests 1 70
+        @scrapes article_url listed_headline
         """
 
         articles = Selector(response).xpath('//div[@class="fc-item__container"]/a[@data-link-name="article"]')
@@ -102,4 +95,4 @@ class GuardianSpider(Spider):
             yield front_page_item
 
             # Request for further crawling to the article page.
-            yield Request(article_url, self.callback_with_article_url(article_url))
+            yield Request(article_url, self.parse_article)
