@@ -94,10 +94,3 @@ ITEM_PIPELINES = {'icicle.pipelines.MongoDBPipeline': 300, }
 MONGODB_SERVER = "mongodb://foozi:woozi123@aws-us-east-1-portal.22.dblayer.com:10174,aws-us-east-1-portal.21.dblayer.com:10172/icicles_db"
 MONGODB_DB = "icicles_db"
 MONGODB_COLLECTION = "pail"
-
-# purge
-# >>> from pymongo import MongoClient
-# >>> c = MongoClient('mongodb://foozi:woozi123@aws-us-east-1-portal.22.dblayer.com:10174,aws-us-east-1-portal.21.dblayer.com:10172/icicles_db')
-# >>> db = c['icicles_db']
-# >>> coll = db['pail']
-# >>> coll.delete_many({})
