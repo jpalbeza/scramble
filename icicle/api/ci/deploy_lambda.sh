@@ -1,7 +1,5 @@
 #!/bin/bash -ex
 
-# Deployed to jpalbeza @ 6152-5215-1637
-
 SOURCE_DIR=`pwd`
 LAMBDA_ARN=IcicleSearch
 ZIP_FILE=${LAMBDA_ARN}.zip
