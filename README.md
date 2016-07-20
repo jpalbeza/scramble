@@ -54,19 +54,19 @@ $> scrapy crawl guardian-icicles
 2. Search string must be b64 encoded to allow appending as a query string
 3. To test functionality, call the python file directly via the command line
 ```
-$> python scramble/icicle/api/src/search/search_text.py "what you are looking for"
+$> python scramble/api/src/search/search_text.py "what you are looking for"
 ```
 4. To test the hosted API setup, use the sample_search tool
 ```
-$> python scramble/icicle/api/test/sample_search.py "what you are looking for"
+$> python scramble/api/test/sample_search.py "what you are looking for"
 ```
 
 ### Deploy
 ```
-$> cd scramble/icicle/api/src/search
+$> cd scramble/api/src/search
 
 # assuming awscli is installed in your system
-$> ../../deploy_lambda.sh
+$> ../../ci/deploy_lambda.sh
 ```
 
 ## Credits
