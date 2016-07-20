@@ -1,19 +1,14 @@
-# -*- coding: utf-8 -*-
-
-# Define here the models for your scraped items
-#
-# See documentation in:
-# http://doc.scrapy.org/en/latest/topics/items.html
-
 from scrapy import Item, Field
 
 
 class FrontPageItem(Item):
+    """ Model for an article appearing in the front page. """
     article_url = Field()
     listed_headline = Field()
 
 
 class ArticlePageItem(Item):
+    """Model for items int eh article page."""
     article_url = Field()
     article_headline = Field()
     author_url = Field()
