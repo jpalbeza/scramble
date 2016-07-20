@@ -78,8 +78,8 @@ class GuardianSpider(Spider):
         2. a Request for further crawling of the found url
 
         @url https://www.theguardian.com/au
-        @returns items 1 70
-        @returns requests 1 70
+        @returns items 20 70
+        @returns requests 20 70
         @scrapes article_url listed_headline
         """
 
