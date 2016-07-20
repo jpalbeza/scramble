@@ -53,6 +53,8 @@ def handle_request(event, context):
     return _find_doc(source_collection, keyword)
 
 
-# For testing via the command line
+# For testing via the command line.
+#
+# $> python search_text.py "search string"
 if __name__ == '__main__':
     pprint(_find_doc(source_collection, sys.argv[1]))

@@ -35,30 +35,38 @@ For each article found, this system stores:
 ## Web Scraper
 ### Build and Test
 ```
-pip install -r requirements.txt
-cd icicle
-scrapy check
+$> cd scramble
+$> pip install -r requirements.txt
+$> cd icicle
+$> scrapy check
 ```
 
 ### Deploy
 1. Add entry to crontab to invoke this code every 5 hours 
 ```
-cd scramble/icicle
-scrapy crawl guardian-icicles
+$> cd scramble/icicle
+$> scrapy crawl guardian-icicles
 ```
 
 ## API
 ### Test
 1. Dev version can be accessed at https://9u56icss4c.execute-api.us-west-2.amazonaws.com/dev/search/b64_encoded_search_string
 2. Search string must be b64 encoded to allow appending as a query string
-    - Can use test tool at scramble/icicle/api/test/sample_search.py
+3. To test functionality, call the python file directly via the command line
+```
+$> python scramble/icicle/api/src/search/search_text.py "what you are looking for"
+```
+4. To test the hosted API setup, use the sample_search tool
+```
+$> python scramble/icicle/api/test/sample_search.py "what you are looking for"
+```
 
 ### Deploy
 ```
-cd scramble/icicle/api/src/search
+$> cd scramble/icicle/api/src/search
 
 # assuming awscli is installed in your system
-../../deploy_lambda.sh
+$> ../../deploy_lambda.sh
 ```
 
 ## Credits
